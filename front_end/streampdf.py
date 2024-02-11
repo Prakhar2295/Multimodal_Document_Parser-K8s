@@ -19,27 +19,27 @@ html_temp = """
 """
 st.markdown(html_temp, unsafe_allow_html=True)
 
-if st.button("Please upload the PDF file for NER prediction"):
 
-    file = st.file_uploader("Upload a PDF file", type="pdf")
 
-    if file is not None:
-        # Read the PDF file
+file = st.file_uploader("Upload a PDF file", type="pdf")
 
-        text = ""
-        with pdfplumber.open(file) as pdf_file:
-            for page in pdf_file.pages:
-                # Extract text from each page
-                text += page.extract_text()
-        # Display the content
-        #files = {"text": file.getvalue()}
-        
-        data = {"text": text}
-        
-        #backend_servicename = os.environ.get('BACKEND_SERVICE_NAME')
-        backend_servicename = "http://127.0.0.1:5000"
-        response = requests.post(f"{backend_servicename}/predict",json=data)
-        
-        st.subheader('Please Find the prediction results below')
-        
-        st.write(f"Prediction: {response.content}")
+if file is not None:
+    # Read the PDF file
+
+    text = ""
+    with pdfplumber.open(file) as pdf_file:
+        for page in pdf_file.pages:
+            # Extract text from each page
+            text += page.extract_text()
+    # Display the content
+    #files = {"text": file.getvalue()}
+    
+    data = {"text": text}
+    
+    #backend_servicename = os.environ.get('BACKEND_SERVICE_NAME')
+    backend_servicename = "http://127.0.0.1:5000"
+    response = requests.post(f"{backend_servicename}/predict",json=data)
+    
+    st.subheader('Please Find the prediction results below')
+    
+    st.write(f"Prediction: {response.content}")
